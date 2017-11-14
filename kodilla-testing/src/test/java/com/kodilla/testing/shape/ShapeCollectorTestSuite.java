@@ -24,7 +24,6 @@ public class ShapeCollectorTestSuite {
     @After
     public void after() {
         System.setOut(oldOutContent);
-        //outContent.reset();
     }
 
     @BeforeClass
@@ -143,7 +142,7 @@ public class ShapeCollectorTestSuite {
         Assert.assertNull(result);
     }
 
-    @Test
+    @Test(expected = IndexOutOfBoundsException.class)
     public void testGetFigureWithNegativeIndex() {
         //Given
         ShapeCollector shapeCollector = new ShapeCollector();
@@ -152,11 +151,8 @@ public class ShapeCollectorTestSuite {
         shapeCollector.addFigure(shape0);
         shapeCollector.addFigure(shape1);
         //When
-        try {
-            Shape result = shapeCollector.getFigure(-1);
-        //Then
-            Assert.fail();
-        } catch (IndexOutOfBoundsException e) {}
+        Shape result = shapeCollector.getFigure(-1);
+        //Then - exception IndexOutOfBounds is thrown
     }
 
     @Test

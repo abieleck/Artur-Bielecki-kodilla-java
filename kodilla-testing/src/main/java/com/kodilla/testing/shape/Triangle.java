@@ -38,7 +38,6 @@ public class Triangle implements Shape {
         if (sideMin + sideMid < sideMax) {
             throw new InvalidParameterException("Attempt to instantiate Triangle object with sides not satisfying Triangle inequality.");
         }
-
     }
 
     @Override
