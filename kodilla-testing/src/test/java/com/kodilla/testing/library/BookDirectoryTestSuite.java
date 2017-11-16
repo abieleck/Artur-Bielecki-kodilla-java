@@ -1,11 +1,14 @@
 package com.kodilla.testing.library;
 
+import com.google.common.collect.HashMultiset;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -90,4 +93,50 @@ public class BookDirectoryTestSuite {
         assertEquals(0, theListOfBooks10.size());
         verify(libraryDatabaseMock, times(0)).listBooksWithCondition(anyString());
     }
+
+
+    private BookLibrary generateBookLibrary(List<Book> resultBookList) {
+        LibraryDatabase libraryDatabaseMock = mock(LibraryDatabase.class);
+        BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
+        when(libraryDatabaseMock.listBooksInHandsOf(any(LibraryUser.class))).thenReturn(resultBookList);
+        return bookLibrary;
+    }
+
+    @Test
+    public void testListBooksInHandsOfNoBooks() {
+        //Given
+        BookLibrary bookLibrary = generateBookLibrary(generateListOfNBooks(0));
+        LibraryUser libraryUser = new LibraryUser("Jan", "Kowalski", "78092001876");
+        //When
+        List<Book> resultListOfBooks = bookLibrary.listBooksInHandsOf(libraryUser);
+        //Then
+        Assert.assertTrue(resultListOfBooks.isEmpty());
+    }
+
+    @Test
+    public void testListBooksInHandsOf1Book() {
+        //Given
+        List<Book> listOfBooks = generateListOfNBooks(1);
+        BookLibrary bookLibrary = generateBookLibrary(listOfBooks);
+        LibraryUser libraryUser = new LibraryUser("Jan", "Kowalski", "78092001876");
+        //When
+        List<Book> resultListOfBooks = bookLibrary.listBooksInHandsOf(libraryUser);
+        //Then
+        Assert.assertEquals(listOfBooks, resultListOfBooks);
+    }
+
+    @Test
+    public void testListBooksInHandsOf5Books() {
+        //Given
+        List<Book> listOfBooks = generateListOfNBooks(5);
+        listOfBooks.set(1, listOfBooks.get(0)); // test duplicate books
+        BookLibrary bookLibrary = generateBookLibrary(listOfBooks);
+        LibraryUser libraryUser = new LibraryUser("Jan", "Kowalski", "78092001876");
+        //When
+        List<Book> resultListOfBooks = bookLibrary.listBooksInHandsOf(libraryUser);
+        //Then
+        //use MultiSet to ignore permutations but do not ignore duplicates
+        Assert.assertEquals(HashMultiset.create(listOfBooks), HashMultiset.create(resultListOfBooks));
+    }
+
 }
