@@ -1,49 +1,25 @@
 package com.kodilla.stream;
 
-import com.kodilla.stream.beautifier.PoemBeautifier;
-import com.kodilla.stream.iterate.NumbersGenerator;
-import com.kodilla.stream.lambda.ExpressionExecutor;
+import com.kodilla.stream.book.Book;
+import com.kodilla.stream.book.BookDirectory;
+import com.kodilla.stream.forumuser.Forum;
+import com.kodilla.stream.forumuser.ForumUser;
 
-import com.kodilla.stream.reference.FunctionalCalculator;
+import java.time.LocalDate;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StreamMain {
-
-    public static String addUderscoresBetween(String text) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i=0; i<text.length(); i++) {
-            stringBuilder.append(text.charAt(i));
-            stringBuilder.append('_');
-        }
-        if(text.length()>0) {
-            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        }
-        return stringBuilder.toString();
-    }
-
     public static void main(String[] args) {
-        ExpressionExecutor expressionExecutor = new ExpressionExecutor();
-
-        System.out.println("Calculating expressions with lambdas");
-        expressionExecutor.executeExpression(10, 5, (a, b) -> a + b);
-        expressionExecutor.executeExpression(10, 5, (a, b) -> a - b);
-        expressionExecutor.executeExpression(10, 5, (a, b) -> a * b);
-        expressionExecutor.executeExpression(10, 5, (a, b) -> a / b);
-
-        System.out.println("Calculating expressions with method references");
-        expressionExecutor.executeExpression(3, 4, FunctionalCalculator::multiplyAByB);
-        expressionExecutor.executeExpression(3, 4, FunctionalCalculator::addAToB);
-        expressionExecutor.executeExpression(3, 4, FunctionalCalculator::subBFromA);
-        expressionExecutor.executeExpression(3, 4, FunctionalCalculator::divideAByB);
-
-        System.out.println("Beautifying text");
-        PoemBeautifier poemBeautifier = new PoemBeautifier();
-        poemBeautifier.beautify("Text to beautify", s -> "__" + s + "__");
-        poemBeautifier.beautify("Text to beautify", s -> s.toUpperCase());
-        poemBeautifier.beautify("Text to beautify", StreamMain::addUderscoresBetween);
-        poemBeautifier.beautify("Text to beautify", s -> s.replace(' ', '_'));
-        poemBeautifier.beautify("Text to beautify", s -> (new StringBuilder(s)).reverse().toString());
-
-        System.out.println("Using Stream to generate even numbers from 1 to 20");
-        NumbersGenerator.generateEven(20);
-    }
+        Forum forum = new Forum();
+        LocalDate now = LocalDate.now();
+        Map<Integer, ForumUser> usersMap = forum.getUserList().stream()
+                .filter(u -> u.getSex()=='M')
+                .filter(u -> u.getBirthDate().plusYears(20).isBefore(now.minusDays(1)))
+                .filter(u -> u.getPostsCount() >= 1)
+                .collect(Collectors.toMap(ForumUser::getUserID, u -> u));
+        usersMap.entrySet().stream()
+                .map(entry -> entry.getKey() + ": " + entry.getValue())
+                .forEach(System.out::println);
+        }
 }
