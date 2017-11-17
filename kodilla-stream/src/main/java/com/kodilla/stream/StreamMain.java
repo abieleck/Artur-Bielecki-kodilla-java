@@ -6,6 +6,19 @@ import com.kodilla.stream.lambda.ExpressionExecutor;
 import com.kodilla.stream.reference.FunctionalCalculator;
 
 public class StreamMain {
+
+    public static String addUderscoresBetween(String text) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i=0; i<text.length(); i++) {
+            stringBuilder.append(text.charAt(i));
+            stringBuilder.append('_');
+        }
+        if(text.length()>0) {
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        }
+        return stringBuilder.toString();
+    }
+
     public static void main(String[] args) {
         ExpressionExecutor expressionExecutor = new ExpressionExecutor();
 
@@ -25,17 +38,7 @@ public class StreamMain {
         PoemBeautifier poemBeautifier = new PoemBeautifier();
         poemBeautifier.beautify("Text to beautify", s -> "__" + s + "__");
         poemBeautifier.beautify("Text to beautify", s -> s.toUpperCase());
-        poemBeautifier.beautify("Text to beautify", s -> {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i=0; i<s.length(); i++) {
-                stringBuilder.append(s.charAt(i));
-                stringBuilder.append('_');
-            }
-            if(s.length()>0) {
-                stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-            }
-            return stringBuilder.toString();
-        });
+        poemBeautifier.beautify("Text to beautify", StreamMain::addUderscoresBetween);
         poemBeautifier.beautify("Text to beautify", s -> s.replace(' ', '_'));
         poemBeautifier.beautify("Text to beautify", s -> (new StringBuilder(s)).reverse().toString());
     }
