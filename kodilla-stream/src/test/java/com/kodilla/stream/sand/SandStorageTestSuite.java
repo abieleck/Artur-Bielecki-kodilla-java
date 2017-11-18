@@ -37,7 +37,7 @@ public class SandStorageTestSuite {
         //When
         BigDecimal totalSand = continents.stream()
                 .map(SandStorage::getSandBeansQuantity)
-                .reduce(BigDecimal.ZERO, (sum, current) -> /*sum = */sum.add(current));
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         //Then
         BigDecimal expectedSand = new BigDecimal("211111110903703703670");
