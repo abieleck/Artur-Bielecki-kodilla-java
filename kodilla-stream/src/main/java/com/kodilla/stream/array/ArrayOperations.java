@@ -11,6 +11,6 @@ public interface ArrayOperations {
         OptionalDouble result = IntStream.range(0, numbers.length)
                 .map(i -> numbers[i])
                 .average();
-        return result.orElseThrow(() -> new IllegalArgumentException());
+        return result.orElseThrow(IllegalArgumentException::new);
     }
 }
