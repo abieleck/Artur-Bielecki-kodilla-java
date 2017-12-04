@@ -13,14 +13,16 @@ public class Input {
 
     public static String getInput(String prompt, String pattern) {
         System.out.println(prompt);
-        while(true) {
-            try {
-                return scanner.next(pattern);
-            } catch (InputMismatchException e) {
+        String result;
+        boolean resultIsValid;
+        do {
+            result = scanner.nextLine();
+            resultIsValid = result.matches(pattern);
+            if (!resultIsValid) {
                 System.out.println("Incorrect value, try again: ");
-                scanner.next(); // if input not matched, it remains unread and needs to be read
             }
-        }
+        } while (!result.matches(pattern));
+        return result;
     }
 
     public static void close() {

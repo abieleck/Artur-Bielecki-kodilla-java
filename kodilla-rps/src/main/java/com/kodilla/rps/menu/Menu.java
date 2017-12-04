@@ -1,4 +1,6 @@
-package com.kodilla.rps;
+package com.kodilla.rps.menu;
+
+import com.kodilla.rps.Input;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -14,11 +16,11 @@ public class Menu {
         this.prompt = prompt;
     }
 
-    protected void addItem(MenuItem item) {
+    public void addItem(MenuItem item) {
         menuItems.put(item.getKey(), item);
     }
 
-    public void execute() throws EndApplicationException, EndGameException {
+    public AppStatus execute() {
         if(description.length()!=0) {
             System.out.println(description);
         }
@@ -30,6 +32,6 @@ public class Menu {
                 .collect(Collectors.joining())
                 + "]";
         char selection = Input.getInput(prompt, pattern).charAt(0);
-        menuItems.get(selection).execute();
+        return menuItems.get(selection).execute();
     }
 }
