@@ -1,5 +1,7 @@
-package com.kodilla.good.patterns.challenges;
+package com.kodilla.good.patterns.challenges.order;
 
+import com.kodilla.good.patterns.challenges.dispatch.DispatchService;
+import com.kodilla.good.patterns.challenges.payment.PaymentRepository;
 import com.kodilla.good.patterns.challenges.processor.NewOrderProcessor;
 import com.kodilla.good.patterns.challenges.processor.OrderProcessor;
 import com.kodilla.good.patterns.challenges.processor.PaidOrderProcessor;

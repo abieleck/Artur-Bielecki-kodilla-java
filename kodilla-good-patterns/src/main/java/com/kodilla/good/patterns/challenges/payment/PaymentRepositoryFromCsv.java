@@ -1,4 +1,6 @@
-package com.kodilla.good.patterns.challenges;
+package com.kodilla.good.patterns.challenges.payment;
+
+import com.kodilla.good.patterns.challenges.order.Order;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,11 +11,11 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
-public class PaymentRepository {
+public class PaymentRepositoryFromCsv implements PaymentRepository {
 
     private HashMap<Long, Payment> paymentsByOrderId = new HashMap<>();
 
-    public PaymentRepository() {
+    public PaymentRepositoryFromCsv() {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("file/Payments.csv").getFile());
         Path path = Paths.get(file.getPath());
@@ -39,6 +41,7 @@ public class PaymentRepository {
 
     }
 
+    @Override
     public Payment getPaymentForOrder(Order order) {
 
         return paymentsByOrderId.get(order.getOrderId());

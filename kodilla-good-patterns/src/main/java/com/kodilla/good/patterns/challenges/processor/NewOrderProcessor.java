@@ -1,7 +1,9 @@
 package com.kodilla.good.patterns.challenges.processor;
 
-import com.kodilla.good.patterns.challenges.*;
-import com.kodilla.good.patterns.challenges.processor.OrderProcessor;
+import com.kodilla.good.patterns.challenges.order.Order;
+import com.kodilla.good.patterns.challenges.order.OrderStatus;
+import com.kodilla.good.patterns.challenges.payment.Payment;
+import com.kodilla.good.patterns.challenges.payment.PaymentRepository;
 
 public class NewOrderProcessor implements OrderProcessor {
 

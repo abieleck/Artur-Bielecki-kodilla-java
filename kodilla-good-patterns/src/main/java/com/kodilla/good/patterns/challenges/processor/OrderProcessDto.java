@@ -1,4 +1,7 @@
-package com.kodilla.good.patterns.challenges;
+package com.kodilla.good.patterns.challenges.processor;
+
+import com.kodilla.good.patterns.challenges.order.Order;
+import com.kodilla.good.patterns.challenges.processor.ActionType;
 
 public final class OrderProcessDto {
 

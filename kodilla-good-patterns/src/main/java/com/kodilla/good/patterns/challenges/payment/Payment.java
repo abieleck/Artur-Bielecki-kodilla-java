@@ -1,4 +1,4 @@
-package com.kodilla.good.patterns.challenges;
+package com.kodilla.good.patterns.challenges.payment;
 
 import java.time.LocalDate;
 

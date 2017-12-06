@@ -1,9 +1,8 @@
 package com.kodilla.good.patterns.challenges.infoservice;
 
-import com.kodilla.good.patterns.challenges.Order;
-import com.kodilla.good.patterns.challenges.OrderProcessDto;
-import com.kodilla.good.patterns.challenges.User;
-import com.kodilla.good.patterns.challenges.infoservice.InformationService;
+import com.kodilla.good.patterns.challenges.order.Order;
+import com.kodilla.good.patterns.challenges.processor.OrderProcessDto;
+import com.kodilla.good.patterns.challenges.order.User;
 
 public class InformationServicePayment implements InformationService {
 

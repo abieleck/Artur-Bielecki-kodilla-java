@@ -1,7 +1,11 @@
-package com.kodilla.good.patterns.challenges;
+package com.kodilla.good.patterns.challenges.dispatch;
 
-public class DispatchService {
+import com.kodilla.good.patterns.challenges.dispatch.DispatchService;
+import com.kodilla.good.patterns.challenges.order.Order;
 
+public class DispatchServiceToScreen implements DispatchService {
+
+    @Override
     public boolean sendOrder(Order order) {
 
         // to illustrate behaviour if order is dispatched and not dispatched, only orders with odd IDs are dispatched

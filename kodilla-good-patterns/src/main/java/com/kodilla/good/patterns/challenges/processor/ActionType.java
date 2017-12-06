@@ -1,4 +1,4 @@
-package com.kodilla.good.patterns.challenges;
+package com.kodilla.good.patterns.challenges.processor;
 
 import com.kodilla.good.patterns.challenges.infoservice.InformationService;
 import com.kodilla.good.patterns.challenges.infoservice.InformationServiceDispatch;

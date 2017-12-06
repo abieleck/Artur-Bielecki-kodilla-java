@@ -1,6 +1,8 @@
 package com.kodilla.good.patterns.challenges.processor;
 
-import com.kodilla.good.patterns.challenges.*;
+import com.kodilla.good.patterns.challenges.dispatch.DispatchService;
+import com.kodilla.good.patterns.challenges.order.Order;
+import com.kodilla.good.patterns.challenges.order.OrderStatus;
 
 public class PaidOrderProcessor implements OrderProcessor {
 

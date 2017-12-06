@@ -1,13 +1,20 @@
 package com.kodilla.good.patterns.challenges;
 
+import com.kodilla.good.patterns.challenges.dispatch.DispatchService;
 import com.kodilla.good.patterns.challenges.infoservice.InformationService;
+import com.kodilla.good.patterns.challenges.order.Order;
+import com.kodilla.good.patterns.challenges.order.OrderRepository;
+import com.kodilla.good.patterns.challenges.order.OrderStatus;
+import com.kodilla.good.patterns.challenges.payment.PaymentRepository;
+import com.kodilla.good.patterns.challenges.processor.ActionType;
+import com.kodilla.good.patterns.challenges.processor.OrderProcessDto;
 import com.kodilla.good.patterns.challenges.processor.OrderProcessor;
 
 public class ProductOrderService {
 
     private OrderRepository orderRepository;
     private PaymentRepository paymentRepository;
-    private  DispatchService dispatchService;
+    private DispatchService dispatchService;
 
     public ProductOrderService(OrderRepository orderRepository, PaymentRepository paymentRepository,
                                DispatchService dispatchService) {

@@ -1,4 +1,4 @@
-package com.kodilla.good.patterns.challenges;
+package com.kodilla.good.patterns.challenges.order;
 
 import java.io.File;
 import java.io.IOException;
