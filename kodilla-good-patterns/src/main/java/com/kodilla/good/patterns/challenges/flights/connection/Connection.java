@@ -8,15 +8,14 @@ import java.util.stream.Collectors;
 public class Connection {
 
     private List<Flight> connectingFlights = new ArrayList<>();
-
+    protected BiPredicate<Flight, Flight> connectingAirport =
+            (firstFlight, secondFlight) -> secondFlight.getDeparture().equals(firstFlight.getDestination());
+    protected BiPredicate<Flight, Flight> connectingTime = (firstFlight, secondFlight)
+            -> secondFlight.getDepartureTime().isAfter(firstFlight.getArrivalTime());
     public Connection addFlight(Flight flight) {
         if (connectingFlights.isEmpty()) {
             connectingFlights.add(flight);
         } else {
-            BiPredicate<Flight, Flight> connectingAirport =
-                    (firstFlight, secondFlight) -> secondFlight.getDeparture().equals(firstFlight.getDestination());
-            BiPredicate<Flight, Flight> connectingTime = (firstFlight, secondFlight)
-                            -> secondFlight.getDepartureTime().isAfter(firstFlight.getArrivalTime());
             Flight lastFlight = connectingFlights.get(connectingFlights.size() - 1);
             if (connectingAirport.and(connectingTime).negate().test(lastFlight, flight)) {
                 throw new UnmatchedConnectingFlightException();
