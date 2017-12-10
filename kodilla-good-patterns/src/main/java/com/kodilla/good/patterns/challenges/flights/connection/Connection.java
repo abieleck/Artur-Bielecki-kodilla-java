@@ -2,6 +2,7 @@ package com.kodilla.good.patterns.challenges.flights.connection;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
 public class Connection {
@@ -12,9 +13,12 @@ public class Connection {
         if (connectingFlights.isEmpty()) {
             connectingFlights.add(flight);
         } else {
+            BiPredicate<Flight, Flight> connectingAirport =
+                    (firstFlight, secondFlight) -> secondFlight.getDeparture().equals(firstFlight.getDestination());
+            BiPredicate<Flight, Flight> connectingTime = (firstFlight, secondFlight)
+                            -> secondFlight.getDepartureTime().isAfter(firstFlight.getArrivalTime());
             Flight lastFlight = connectingFlights.get(connectingFlights.size() - 1);
-            if (!flight.getDeparture().equals(lastFlight.getDestination()) ||
-                    flight.getDepartureTime().isBefore(lastFlight.getArrivalTime())) {
+            if (connectingAirport.and(connectingTime).negate().test(lastFlight, flight)) {
                 throw new UnmatchedConnectingFlightException();
             }
             connectingFlights.add(flight);

@@ -27,10 +27,9 @@ public class Menu<T> {
         for(MenuItem<T> item : menuItems.values()) {
             item.show();
         }
-        String pattern = "[" + menuItems.keySet().stream()
+        String pattern = menuItems.keySet().stream()
                 .map(s -> Character.toString(s))
-                .collect(Collectors.joining())
-                + "]";
+                .collect(Collectors.joining("", "[", "]"));
         char selection = Input.getInput(prompt, pattern).charAt(0);
         return menuItems.get(selection).execute();
     }

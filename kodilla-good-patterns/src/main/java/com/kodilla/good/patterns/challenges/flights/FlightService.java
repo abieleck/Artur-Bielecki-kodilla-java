@@ -30,11 +30,22 @@ public class FlightService {
                 .collect(Collectors.toList());
     }
 
+    private boolean isFlightBetween(Flight flight, Airport cityFrom, Airport cityTo) {
+        return flight.getDeparture().equals(cityFrom) &&
+                flight.getDestination().equals(cityTo);
+    }
+
     public List<Connection> getDirectFlightsBetween(Airport cityFrom, Airport cityTo) {
         return flightRepository.getFlights().stream()
-                .filter(flight -> flight.getDeparture().equals(cityFrom) && flight.getDestination().equals(cityTo))
+                .filter(flight -> isFlightBetween(flight, cityFrom, cityTo))
                 .map(flight -> (new Connection()).addFlight(flight))
                 .collect(Collectors.toList());
+    }
+
+    private boolean isConnectingFlight(Flight firstFlight, Flight secondFlight, Airport cityTo) {
+        return secondFlight.getDeparture().equals(firstFlight.getDestination())
+                && secondFlight.getDestination().equals(cityTo)
+                && secondFlight.getDepartureTime().isAfter(firstFlight.getArrivalTime());
     }
 
     public List<Connection> getFlightsBetween(Airport cityFrom, Airport cityTo) {
@@ -46,11 +57,8 @@ public class FlightService {
         List<Connection> indirectConnections = flights.stream()
                 .filter(flight -> flight.getDeparture().equals(cityFrom))
                 .flatMap(flight -> flights.stream()
-                        .filter(
-                                f -> f.getDeparture().equals(flight.getDestination())
-                                && f.getDestination().equals(cityTo)
-                                && f.getDepartureTime().isAfter(flight.getArrivalTime()))
-                            .map(f -> (new Connection()).addFlight(flight).addFlight(f)))
+                        .filter(f -> isConnectingFlight(flight, f, cityTo))
+                        .map(f -> (new Connection()).addFlight(flight).addFlight(f)))
                 .collect(Collectors.toList());
 
         connections.addAll(indirectConnections);

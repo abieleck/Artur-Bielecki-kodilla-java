@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,25 +32,14 @@ public class FlightRepositoryCsv implements FlightRepository {
         }
     }
 
-    private LocalDateTime readTime(String timeString) {
-        String[] dateTime = timeString.split(" ");
-        String[] dateFields = dateTime[0].split("-");
-        String[] timeFields = dateTime[1].split(":");
-        int year = Integer.parseInt(dateFields[0]);
-        int month = Integer.parseInt(dateFields[1]);
-        int day = Integer.parseInt(dateFields[2]);
-        int hour = Integer.parseInt(timeFields[0]);
-        int minute = Integer.parseInt(timeFields[1]);
-        return LocalDateTime.of(year, month, day, hour, minute);
-    }
-
     private Flight readFlightFromString(String csvLine) {
 
         String[] columns = csvLine.split(";");
         Airport departure = new Airport(columns[0]);
         Airport destination = new Airport(columns[2]);
-        LocalDateTime departureTime = readTime(columns[1]);
-        LocalDateTime arrivalTime = readTime(columns[3]);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd H:mm");
+        LocalDateTime departureTime = LocalDateTime.parse(columns[1], dateTimeFormatter);
+        LocalDateTime arrivalTime = LocalDateTime.parse(columns[3], dateTimeFormatter);
         Flight flight = new Flight(departure, destination, departureTime, arrivalTime);
         return flight;
     }
