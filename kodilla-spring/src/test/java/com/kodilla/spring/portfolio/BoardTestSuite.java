@@ -15,7 +15,7 @@ public class BoardTestSuite {
     @Test
     public void testTaskAdd() {
         final String TO_DO_TASK_TXT = "To-do task";
-        final String IN_PROGRESS_TASK_TXT = "To-do task";
+        final String IN_PROGRESS_TASK_TXT = "In-progress task";
         final String DONE_TASK_TXT = "Done task";
         //Given
         Package packagePortfolio = Package.getPackage("com.kodilla.spring.portfolio");
@@ -27,7 +27,7 @@ public class BoardTestSuite {
         board.addDoneTask(DONE_TASK_TXT);
         //Then
         Assert.assertEquals(TO_DO_TASK_TXT, board.getLastToDoTask());
-        Assert.assertEquals(TO_DO_TASK_TXT, board.getLastInProgressTask());
+        Assert.assertEquals(IN_PROGRESS_TASK_TXT, board.getLastInProgressTask());
         Assert.assertEquals(DONE_TASK_TXT, board.getLastDoneTask());
     }
 }
