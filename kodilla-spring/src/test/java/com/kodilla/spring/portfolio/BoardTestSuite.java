@@ -14,20 +14,14 @@ public class BoardTestSuite {
 
     @Test
     public void testTaskAdd() {
-        final String TO_DO_TASK_TXT = "To-do task";
-        final String IN_PROGRESS_TASK_TXT = "In-progress task";
-        final String DONE_TASK_TXT = "Done task";
         //Given
         Package packagePortfolio = Package.getPackage("com.kodilla.spring.portfolio");
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(packagePortfolio.getName());
-        Board board = applicationContext.getBean(Board.class);
         //When
-        board.addToDoTask(TO_DO_TASK_TXT);
-        board.addInProgressTask(IN_PROGRESS_TASK_TXT);
-        board.addDoneTask(DONE_TASK_TXT);
+        Board board = applicationContext.getBean(Board.class);
         //Then
-        Assert.assertEquals(TO_DO_TASK_TXT, board.getLastToDoTask());
-        Assert.assertEquals(IN_PROGRESS_TASK_TXT, board.getLastInProgressTask());
-        Assert.assertEquals(DONE_TASK_TXT, board.getLastDoneTask());
+        Assert.assertEquals("To-do list", board.getLastToDoTask());
+        Assert.assertEquals("In-progress list", board.getLastInProgressTask());
+        Assert.assertEquals("Done list", board.getLastDoneTask());
     }
 }

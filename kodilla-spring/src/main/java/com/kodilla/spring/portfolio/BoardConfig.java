@@ -7,9 +7,24 @@ import org.springframework.context.annotation.Scope;
 @Configuration
 public class BoardConfig {
 
+    private TaskList getInitializedList(String taskText) {
+        TaskList taskList = new TaskList();
+        taskList.addTask(taskText);
+        return taskList;
+    }
+
     @Bean
-    @Scope("prototype")
-    public TaskList getTaskList() {
-        return new TaskList();
+    public TaskList toDoList() {
+        return getInitializedList("To-do list");
+    }
+
+    @Bean
+    public TaskList inProgressList() {
+        return getInitializedList("In-progress list");
+    }
+
+    @Bean
+    public TaskList doneList() {
+        return getInitializedList("Done list");
     }
 }
