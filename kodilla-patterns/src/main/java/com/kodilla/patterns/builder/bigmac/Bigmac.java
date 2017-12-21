@@ -4,11 +4,6 @@ import java.util.*;
 
 public final class Bigmac {
 
-    private final Rolls roll;
-    private final int burgers;
-    private final Sauces sauce;
-    private final List<Ingredients> ingredients;
-
     public enum Sauces {
         STANDARD_SAUCE,
         THOUSAD_ISLANDS_SAUCE,
@@ -29,29 +24,6 @@ public final class Bigmac {
         CHAMPIGNON_MUSHROOMS,
         SHRIMPS,
         CHEESE
-    }
-
-    private Bigmac(Rolls roll, int burgers, Sauces sauce, List<Ingredients> ingredients) {
-        this.roll = roll;
-        this.burgers = burgers;
-        this.sauce = sauce;
-        this.ingredients = ingredients;
-    }
-
-    public Rolls getRoll() {
-        return roll;
-    }
-
-    public int getBurgers() {
-        return burgers;
-    }
-
-    public Sauces getSauce() {
-        return sauce;
-    }
-
-    public List<Ingredients> getIngredients() {
-        return ingredients;
     }
 
     public static class BigmacBuilder {
@@ -96,4 +68,34 @@ public final class Bigmac {
 
         }
     }
+
+    private final Rolls roll;
+    private final int burgers;
+    private final Sauces sauce;
+    private final List<Ingredients> ingredients;
+
+
+    private Bigmac(Rolls roll, int burgers, Sauces sauce, List<Ingredients> ingredients) {
+        this.roll = roll;
+        this.burgers = burgers;
+        this.sauce = sauce;
+        this.ingredients = ingredients;
+    }
+
+    public Rolls getRoll() {
+        return roll;
+    }
+
+    public int getBurgers() {
+        return burgers;
+    }
+
+    public Sauces getSauce() {
+        return sauce;
+    }
+
+    public List<Ingredients> getIngredients() {
+        return ingredients;
+    }
+
 }
