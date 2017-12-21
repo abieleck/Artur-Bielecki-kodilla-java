@@ -13,21 +13,21 @@ public class BigmacTestSuite {
         //Given
         Bigmac bigmac = new Bigmac.BigmacBuilder()
                 .burgers(3)
-                .ingredient("Onion")
-                .ingredient("Cucumber")
-                .roll(Bigmac.SESAME_ROLL)
-                .sauce(Bigmac.BARBECUE_SAUCE)
+                .ingredient(Bigmac.Ingredients.ONION)
+                .ingredient(Bigmac.Ingredients.CUCUMBER)
+                .roll(Bigmac.Rolls.SESAME_ROLL)
+                .sauce(Bigmac.Sauces.BARBECUE_SAUCE)
                 .build();
         //When
         int burgers = bigmac.getBurgers();
-        String roll = bigmac.getRoll();
-        String sauce = bigmac.getSauce();
-        List<String> ingredients = bigmac.getIngredients();
+        Bigmac.Rolls roll = bigmac.getRoll();
+        Bigmac.Sauces sauce = bigmac.getSauce();
+        List<Bigmac.Ingredients> ingredients = bigmac.getIngredients();
         //Then
         Assert.assertEquals(3, burgers);
-        Assert.assertEquals(Bigmac.SESAME_ROLL, roll);
-        Assert.assertEquals(Bigmac.BARBECUE_SAUCE, sauce);
-        Assert.assertEquals(ingredients, Arrays.asList("Onion", "Cucumber"));
+        Assert.assertEquals(Bigmac.Rolls.SESAME_ROLL, roll);
+        Assert.assertEquals(Bigmac.Sauces.BARBECUE_SAUCE, sauce);
+        Assert.assertEquals(ingredients, Arrays.asList(Bigmac.Ingredients.ONION, Bigmac.Ingredients.CUCUMBER));
     }
 
     @Test(expected = IllegalStateException.class)
@@ -35,9 +35,9 @@ public class BigmacTestSuite {
         //Given
         //When
         Bigmac bigmac = new Bigmac.BigmacBuilder()
-                .ingredient("Onion")
-                .roll(Bigmac.SESAME_ROLL)
-                .sauce(Bigmac.BARBECUE_SAUCE)
+                .ingredient(Bigmac.Ingredients.ONION)
+                .roll(Bigmac.Rolls.SESAME_ROLL)
+                .sauce(Bigmac.Sauces.BARBECUE_SAUCE)
                 .build();
         //Then - exception is thrown
     }
@@ -48,9 +48,9 @@ public class BigmacTestSuite {
         //When
         Bigmac bigmac = new Bigmac.BigmacBuilder()
                 .burgers(-2)
-                .roll(Bigmac.SESAME_ROLL)
-                .ingredient("Onion")
-                .sauce(Bigmac.BARBECUE_SAUCE)
+                .roll(Bigmac.Rolls.SESAME_ROLL)
+                .ingredient(Bigmac.Ingredients.ONION)
+                .sauce(Bigmac.Sauces.BARBECUE_SAUCE)
                 .build();
         //Then - exception is thrown
     }
@@ -61,21 +61,8 @@ public class BigmacTestSuite {
         //When
         Bigmac bigmac = new Bigmac.BigmacBuilder()
                 .burgers(1)
-                .ingredient("Onion")
-                .sauce(Bigmac.BARBECUE_SAUCE)
-                .build();
-        //Then - exception is thrown
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void testIncorrectRoll() {
-        //Given
-        //When
-        Bigmac bigmac = new Bigmac.BigmacBuilder()
-                .burgers(1)
-                .roll("incorrect roll")
-                .ingredient("Onion")
-                .sauce(Bigmac.BARBECUE_SAUCE)
+                .ingredient(Bigmac.Ingredients.ONION)
+                .sauce(Bigmac.Sauces.BARBECUE_SAUCE)
                 .build();
         //Then - exception is thrown
     }
@@ -86,37 +73,10 @@ public class BigmacTestSuite {
         //When
         Bigmac bigmac = new Bigmac.BigmacBuilder()
                 .burgers(1)
-                .roll(Bigmac.SESAME_ROLL)
-                .ingredient("Onion")
+                .roll(Bigmac.Rolls.SESAME_ROLL)
+                .ingredient(Bigmac.Ingredients.ONION)
                 .build();
         //Then - exception is thrown
     }
-
-    @Test(expected = IllegalStateException.class)
-    public void testIncorrectSauce() {
-        //Given
-        //When
-        Bigmac bigmac = new Bigmac.BigmacBuilder()
-                .burgers(1)
-                .roll(Bigmac.SESAME_ROLL)
-                .ingredient("Onion")
-                .sauce("incorrect sauce")
-                .build();
-        //Then - exception is thrown
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void testIncorrectIngredient() {
-        //Given
-        //When
-        Bigmac bigmac = new Bigmac.BigmacBuilder()
-                .burgers(1)
-                .roll(Bigmac.SESAME_ROLL)
-                .ingredient("incorrect ingredient")
-                .sauce(Bigmac.BARBECUE_SAUCE)
-                .build();
-        //Then - exception is thrown
-    }
-
 
 }

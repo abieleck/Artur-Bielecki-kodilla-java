@@ -4,29 +4,41 @@ import java.util.*;
 
 public final class Bigmac {
 
-    private final String roll;
+    private final Rolls roll;
     private final int burgers;
-    private final String sauce;
-    private final List<String> ingredients;
+    private final Sauces sauce;
+    private final List<Ingredients> ingredients;
 
-    public final static String SESAME_ROLL = "Sesame roll";
-    public final static String NO_SESAME_ROLL = "No sesame roll";
-    public final static String STANDARD_SAUCE = "Standard sauce";
-    public final static String THOUSAD_ISLANDS_SAUCE = "1000 islands sauce";
-    public final static String BARBECUE_SAUCE = "BBQ sauce";
-    public final static Set<String> INGREDIENTS = Collections.unmodifiableSet(
-            new HashSet<>(Arrays.asList("Salad", "Onion", "Beckon", "Cucumber", "Chilli",
-                    "Champignon mushroom", "Shrimps", "Cheese")));
+    public enum Sauces {
+        STANDARD_SAUCE,
+        THOUSAD_ISLANDS_SAUCE,
+        BARBECUE_SAUCE
+    }
 
+    public enum Rolls {
+        SESAME_ROLL,
+        NO_SESAME_ROLL
+    }
 
-    private Bigmac(String roll, int burgers, String sauce, List<String> ingredients) {
+    public enum Ingredients {
+        SALAD,
+        ONION,
+        BECKON,
+        CUCUMBER,
+        CHILI,
+        CHAMPIGNON_MUSHROOMS,
+        SHRIMPS,
+        CHEESE
+    }
+
+    private Bigmac(Rolls roll, int burgers, Sauces sauce, List<Ingredients> ingredients) {
         this.roll = roll;
         this.burgers = burgers;
         this.sauce = sauce;
         this.ingredients = ingredients;
     }
 
-    public String getRoll() {
+    public Rolls getRoll() {
         return roll;
     }
 
@@ -34,24 +46,21 @@ public final class Bigmac {
         return burgers;
     }
 
-    public String getSauce() {
+    public Sauces getSauce() {
         return sauce;
     }
 
-    public List<String> getIngredients() {
+    public List<Ingredients> getIngredients() {
         return ingredients;
     }
 
     public static class BigmacBuilder {
-        private String roll;
+        private Rolls roll;
         private Integer burgers;
-        private String sauce;
-        private List<String> ingredients = new ArrayList<>();
+        private Sauces sauce;
+        private List<Ingredients> ingredients = new ArrayList<>();
 
-        public BigmacBuilder roll(String roll) {
-            if (!roll.equals(SESAME_ROLL) && !roll.equals(NO_SESAME_ROLL)) {
-                throw new IllegalStateException("Incorrect name of roll");
-            }
+        public BigmacBuilder roll(Rolls roll) {
             this.roll = roll;
             return this;
         }
@@ -64,20 +73,12 @@ public final class Bigmac {
             return this;
         }
 
-        public BigmacBuilder sauce(String sauce) {
-            if (!sauce.equals(STANDARD_SAUCE) &&
-                    !sauce.equals(THOUSAD_ISLANDS_SAUCE) &&
-                    !sauce.equals(BARBECUE_SAUCE)) {
-                throw new IllegalStateException("Incorrect name of sauce");
-            }
+        public BigmacBuilder sauce(Sauces sauce) {
             this.sauce = sauce;
             return this;
         }
 
-        public BigmacBuilder ingredient(String ingredient) {
-            if (!INGREDIENTS.contains(ingredient)) {
-                throw new IllegalStateException("Incorrect name of ingredient : " + ingredient);
-            }
+        public BigmacBuilder ingredient(Ingredients ingredient) {
             ingredients.add(ingredient);
             return this;
         }
