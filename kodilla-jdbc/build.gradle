@@ -11,6 +11,8 @@ repositories {
 
 dependencies {
     //compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.8-dmr'
-    testCompile group: 'mysql', name: 'mysql-connector-java', version: '8.0.8-dmr'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.8-dmr'
     testCompile group: 'junit', name: 'junit', version: '4.12'
+
+
 }
