@@ -66,7 +66,7 @@ public class SudokuRunner {
             for(SudokuBoard b: solutions) {
                 System.out.println(b);
             }
-            System.out.print("Average number of iterations per solution (the higher, the more difficult sudoku is): ");
+            System.out.print("Average number of iterations per solution (the higher, the more difficult sudoku): ");
             System.out.println((double)sudokuSolver.getIterations() / (double)solutions.size());
         }
         System.out.println("Your board:");
