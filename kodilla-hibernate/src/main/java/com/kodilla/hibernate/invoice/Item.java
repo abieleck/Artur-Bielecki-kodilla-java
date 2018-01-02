@@ -35,7 +35,7 @@ public class Item {
         this.id = id;
     }
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(name = "PRODUCT_ID")
     public Product getProduct() {
         return product;
