@@ -4,7 +4,9 @@ import com.kodilla.hibernate.task.Task;
 import com.kodilla.hibernate.task.TaskFinancialDetails;
 import com.kodilla.hibernate.task.dao.TaskDao;
 import com.kodilla.hibernate.tasklist.TaskList;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +22,36 @@ public class TaskListDaoTestSuite {
 
     private final static String NAME = "List name";
     private final static String DESCRIPTION = "List desription";
+<<<<<<< HEAD
     private final static String LISTNAME = "ToDo List";
 
     @Autowired
     TaskDao taskDao;
+=======
+    private static int taskListId;
+>>>>>>> Zadanie13.2
 
     @Autowired
     private TaskListDao taskListDao;
 
+    @Before
+    public void initializeData() {
+        TaskList taskList = new TaskList(NAME, DESCRIPTION);
+        taskListDao.save(taskList);
+        taskListId = taskList.getId();
+    }
+
+    @After
+    public void cleanUp() {
+        try {
+            taskListDao.delete(taskListId);
+        } catch (Exception e) {
+        }
+    }
+
     @Test
     public void testFindByListName() {
         //Given
-        TaskList taskList = new TaskList(NAME, DESCRIPTION);
-        taskListDao.save(taskList);
         //When
         List<TaskList> returnedTaskLists = taskListDao.findByListName(NAME);
         //Then
@@ -40,9 +59,7 @@ public class TaskListDaoTestSuite {
         TaskList returnedTaskList = returnedTaskLists.get(0);
         Assert.assertEquals(NAME, returnedTaskList.getListName());
         Assert.assertEquals(DESCRIPTION, returnedTaskList.getDescription());
-        //Clean up
-        int id = returnedTaskList.getId();
-        taskListDao.delete(id);
+
     }
 
     @Test
