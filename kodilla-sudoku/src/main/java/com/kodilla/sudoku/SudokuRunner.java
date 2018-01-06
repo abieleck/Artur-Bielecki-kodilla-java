@@ -36,7 +36,7 @@ public class SudokuRunner {
     private void run() {
         Input.open();
         menuSetup();
-        System.out.println("Welcome to sudoku solver! Start with empty board:");
+        System.out.println("Welcome to Sudoku solver! Start with empty board:");
         System.out.println(board);
         AppStatus applicationStatus;
         do {
@@ -56,17 +56,19 @@ public class SudokuRunner {
     }
 
     private AppStatus solveSudoku(int maxSolutions) {
-        SudokuSolver sudokuSolver = new SudokuSolver(board, maxSolutions);
+        SudokuSolverFactory sudokuSolverFactory = new SudokuSolverFactory();
+        SudokuSolver sudokuSolver = sudokuSolverFactory.getSudokuSolver(board, maxSolutions,
+                SudokuSolverFactory.Algorithms.ITERATE_THROUGH_BOARD);
         sudokuSolver.solveSudoku();
         List<SudokuBoard> solutions = sudokuSolver.getSolutions();
         if(solutions.isEmpty()) {
-            System.out.println("This sudoku does not have solutions");
+            System.out.println("This Sudoku does not have solutions");
         } else {
             System.out.println("Solutions found:");
             for(SudokuBoard b: solutions) {
                 System.out.println(b);
             }
-            System.out.print("Average number of iterations per solution (the higher, the more difficult sudoku): ");
+            System.out.print("Average number of iterations per solution (the higher, the more difficult Sudoku): ");
             System.out.println((double)sudokuSolver.getIterations() / (double)solutions.size());
         }
         System.out.println("Your board:");
