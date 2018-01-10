@@ -16,7 +16,7 @@ public class SudokuRunner {
 
     Menu menu = new Menu("Select action:", "Enter your choice:");
     EndApplicationMenu endApplicationMenu = new EndApplicationMenu(menu);
-    SudokuBoard board = new SudokuBoard();
+    Board board = new Board();
 
     private void menuSetup() {
         menu.addItem(new MenuItem("x,y,n...", "^[1-9](,[1-9]){2}((,[1-9]){3})*$",
@@ -58,14 +58,14 @@ public class SudokuRunner {
     private AppStatus solveSudoku(int maxSolutions) {
         SudokuSolverFactory sudokuSolverFactory = new SudokuSolverFactory();
         SudokuSolver sudokuSolver = sudokuSolverFactory.getSudokuSolver(board, maxSolutions,
-                SudokuSolverFactory.Algorithms.ITERATE_THROUGH_BOARD);
+                SudokuSolverFactory.Solvers.ITERATE_THROUGH_BOARD);
         sudokuSolver.solveSudoku();
-        List<SudokuBoard> solutions = sudokuSolver.getSolutions();
+        List<Board> solutions = sudokuSolver.getSolutions();
         if(solutions.isEmpty()) {
             System.out.println("This Sudoku does not have solutions");
         } else {
             System.out.println("Solutions found:");
-            for(SudokuBoard b: solutions) {
+            for(Board b: solutions) {
                 System.out.println(b);
             }
             System.out.print("Average number of iterations per solution (the higher, the more difficult Sudoku): ");

@@ -5,7 +5,7 @@ import java.util.List;
 public interface SudokuSolver {
     void solveSudoku();
 
-    List<SudokuBoard> getSolutions();
+    List<Board> getSolutions();
 
     int getIterations();
 }

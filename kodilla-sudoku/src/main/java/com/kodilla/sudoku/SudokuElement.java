@@ -5,6 +5,10 @@ public class SudokuElement {
 
     int value = EMPTY;
 
+    public int getValue() {
+        return value;
+    }
+
     public void setValue(int value) {
         this.value = value;
     }

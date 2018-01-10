@@ -2,10 +2,10 @@ package com.kodilla.sudoku;
 
 import java.util.ArrayList;
 
-public class SudokuBoard {
+public class Board {
     ArrayList<SudokuRow> rows = new ArrayList<>();
 
-    public SudokuBoard() {
+    public Board() {
         for(int i=0; i<9; i++) {
             rows.add(new SudokuRow());
         }
@@ -15,16 +15,20 @@ public class SudokuBoard {
         rows.get(coordinateY - 1).getSudokuElement(coordinateX).setValue(value);
     }
 
+    public int getValue(int coordinateX, int coordinateY) {
+        return rows.get(coordinateY - 1).getSudokuElement(coordinateX).getValue();
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("y-------------------\n");
+        stringBuilder.append("y -------------------\n");
         for(int i=9; i>=1; i--) {
-            stringBuilder.append(i + rows.get(i-1).toString() + "\n");
+            stringBuilder.append(i + " " + rows.get(i-1).toString() + "\n");
         }
-        stringBuilder.append(" -------------------\n");
-        stringBuilder.append("x 1 2 3 4 5 6 7 8 9");
+        stringBuilder.append("  -------------------\n");
+        stringBuilder.append("x  1 2 3 4 5 6 7 8 9");
         return  stringBuilder.toString();
     }
 
