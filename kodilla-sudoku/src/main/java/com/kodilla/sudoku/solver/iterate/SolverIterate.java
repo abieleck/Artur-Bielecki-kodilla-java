@@ -1,20 +1,20 @@
 package com.kodilla.sudoku.solver.iterate;
 
-import com.kodilla.sudoku.Board;
-import com.kodilla.sudoku.SudokuSolver;
+import com.kodilla.sudoku.board.Board;
+import com.kodilla.sudoku.solver.SudokuSolver;
 
 import java.util.*;
 
-public class SudokuSolverIterate implements SudokuSolver {
+public class SolverIterate implements SudokuSolver {
 
     private Board board;
     private int maxSolutions;
     private int iterations;
     private List<Board> solutions = new ArrayList<>();
 
-    public SudokuSolverIterate(Board board, int maxSolutions) {
+    public SolverIterate(Board board, List<String> parameters) {
         this.board = board;
-        this.maxSolutions = maxSolutions;
+        this.maxSolutions = Integer.parseInt(parameters.get(0));
     }
 
     private void removeImpossibleValues(SolverIterateState solverState) {
@@ -66,7 +66,9 @@ public class SudokuSolverIterate implements SudokuSolver {
     }
 
     @Override
-    public int getIterations() {
-        return iterations;
+    public String getStatistics() {
+        return "Average number of iterations per solution (the higher, the more difficult Sudoku): " +
+            (double)iterations / (double)solutions.size();
     }
+
 }

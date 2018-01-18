@@ -1,4 +1,4 @@
-package com.kodilla.sudoku;
+package com.kodilla.sudoku.board;
 
 import java.util.ArrayList;
 
@@ -25,10 +25,15 @@ public class Board {
 
         stringBuilder.append("y -------------------\n");
         for(int i=9; i>=1; i--) {
-            stringBuilder.append(i + " " + rows.get(i-1).toString() + "\n");
+            stringBuilder
+                    .append(i)
+                    .append(" ")
+                    .append(rows.get(i-1).toString())
+                    .append("\n");
         }
-        stringBuilder.append("  -------------------\n");
-        stringBuilder.append("x  1 2 3 4 5 6 7 8 9");
+        stringBuilder
+                .append("  -------------------\n")
+                .append("x  1 2 3 4 5 6 7 8 9");
         return  stringBuilder.toString();
     }
 

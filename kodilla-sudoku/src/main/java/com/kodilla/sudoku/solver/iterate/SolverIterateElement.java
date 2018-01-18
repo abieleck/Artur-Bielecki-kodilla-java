@@ -1,6 +1,6 @@
 package com.kodilla.sudoku.solver.iterate;
 
-import com.kodilla.sudoku.SudokuElement;
+import com.kodilla.sudoku.board.SudokuElement;
 
 import java.util.ArrayList;
 import java.util.Arrays;

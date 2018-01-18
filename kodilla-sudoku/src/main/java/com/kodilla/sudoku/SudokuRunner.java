@@ -1,11 +1,9 @@
 package com.kodilla.sudoku;
 
-import com.kodilla.sudoku.menu.AppStatus;
-import com.kodilla.sudoku.menu.EndApplicationMenu;
-import com.kodilla.sudoku.menu.Menu;
-import com.kodilla.sudoku.menu.MenuItem;
-
-import java.util.List;
+import com.kodilla.sudoku.board.Board;
+import com.kodilla.sudoku.board.SudokuElement;
+import com.kodilla.sudoku.menu.*;
+import com.kodilla.sudoku.solver.SolverType;
 
 public class SudokuRunner {
 
@@ -19,16 +17,15 @@ public class SudokuRunner {
     Board board = new Board();
 
     private void menuSetup() {
-        menu.addItem(new MenuItem("x,y,n...", "^[1-9](,[1-9]){2}((,[1-9]){3})*$",
-                "insert number n (1-9) into board at coordinates x (1-9) and y (1-9). " +
-                        "Multiple triples are allowed, e.g. '2,4,1,3,5,2' enters 1 at (2,4) and 2 at (3,5)",
+        menu.addItem(new MenuItem("x,y,n...", "^[1-9],[1-9],[0-9](,[1-9],[1-9],[0-9])*$",
+                "insert number n (0-9) into board at coordinates x (1-9) and y (1-9). " +
+                        "Multiple triples are allowed, e.g. '2,4,1,3,5,2' enters 1 at (2,4) and 2 at (3,5). Value 0 " +
+                        "means \"empty\"",
                 s -> insertToBoard(s)));
         menu.addItem(new MenuItem("c", "^c$","clear board", s -> clearBoard()));
-        menu.addItem(new MenuItem("SUDOKU", "^SUDOKU$", "solve sudoku (at most 10 solutions)",
-                s -> solveSudoku(10)));
-        menu.addItem(new MenuItem("SUDOKU n", "^SUDOKU ([1-9][0-9]?|100)$", "solve sudoku " +
-                "(at most n solutions, n between 1 and 100)",
-                s -> solveSudoku(Integer.parseInt(s.substring(7)))));
+        for(SolverType t: SolverType.values()) {
+            menu.addItem(t.getMenuItem(board));
+        }
         menu.addItem(new MenuItem("x","^x$", "exit application",
                 s -> endApplicationMenu.execute()));
     }
@@ -45,31 +42,43 @@ public class SudokuRunner {
         Input.close();
     }
 
-    private AppStatus insertToBoard(String valuesAtCoordinates) {
-        String[] values = valuesAtCoordinates.split(",");
-        for(int i=0; i < values.length; i+=3) {
-            board.insert(Integer.parseInt(values[i]), Integer.parseInt(values[i+1]), Integer.parseInt(values[i+2]));
+    private boolean valueIsValid(int x, int y, int value) {
+        if (value == SudokuElement.EMPTY) {
+            return true;
         }
-        System.out.println("Your board:");
-        System.out.println(board);
-        return AppStatus.NORMAL;
+        boolean isValid = true;
+        for(int i=1; i<9 && isValid; i++) {
+            isValid = board.getValue((x - 1 + i) % 9 + 1, y) != value &&
+                    board.getValue(x, (y - 1 + i) % 9 + 1) != value;
+        }
+        for(int i = 1; i < 3 && isValid; i++) {
+            for(int j = 1; j < 3 && isValid; j++) {
+                isValid = board.getValue(x - (x-1) % 3 + ((x-1) % 3 + i) % 3,
+                        y - (y-1) % 3 + ((y-1) % 3 + j) % 3) != value;
+            }
+        }
+        return isValid;
     }
 
-    private AppStatus solveSudoku(int maxSolutions) {
-        SudokuSolverFactory sudokuSolverFactory = new SudokuSolverFactory();
-        SudokuSolver sudokuSolver = sudokuSolverFactory.getSudokuSolver(board, maxSolutions,
-                SudokuSolverFactory.Solvers.ITERATE_THROUGH_BOARD);
-        sudokuSolver.solveSudoku();
-        List<Board> solutions = sudokuSolver.getSolutions();
-        if(solutions.isEmpty()) {
-            System.out.println("This Sudoku does not have solutions");
-        } else {
-            System.out.println("Solutions found:");
-            for(Board b: solutions) {
-                System.out.println(b);
+    private AppStatus insertToBoard(String valuesAtCoordinates) {
+        String[] values = valuesAtCoordinates.split(",");
+        boolean validValue = true;
+        int x = 0, y = 0, value = 0;
+        for(int i=0; i < values.length && validValue; i+=3) {
+            x = Integer.parseInt(values[i]);
+            y = Integer.parseInt(values[i+1]);
+            value = Integer.parseInt(values[i+2]);
+            if(value == 0) {
+                value = SudokuElement.EMPTY;
             }
-            System.out.print("Average number of iterations per solution (the higher, the more difficult Sudoku): ");
-            System.out.println((double)sudokuSolver.getIterations() / (double)solutions.size());
+            validValue = valueIsValid(x, y, value);
+            if(validValue) {
+                board.insert(x, y, value);
+            }
+        }
+        if(!validValue) {
+            System.out.println("WARNING: value " + value + " is not allowed at coordinates x=" + x + " y=" + y +
+                    " (repeats in row, column or 3x3 block). Subsequent values (if any) have been ignored." );
         }
         System.out.println("Your board:");
         System.out.println(board);

@@ -2,7 +2,6 @@ package com.kodilla.sudoku.menu;
 
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class MenuItem {
     private String entry;

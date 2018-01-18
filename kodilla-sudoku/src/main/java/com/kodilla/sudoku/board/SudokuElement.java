@@ -1,4 +1,4 @@
-package com.kodilla.sudoku;
+package com.kodilla.sudoku.board;
 
 public class SudokuElement {
     public static final int EMPTY = -1;

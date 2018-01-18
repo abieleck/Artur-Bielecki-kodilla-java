@@ -43,18 +43,4 @@ public class Menu {
 
     }
 
-    public static void main(String[] args) {
-        Input.open();
-        Menu menu = new Menu("Test menu description", "Test menu prompt:");
-        MenuItem menuItem = new MenuItem("1-9", "^[1-9]$", "Enter number 1-9",
-                s -> {System.out.println(s);
-                    return AppStatus.NORMAL;
-                });
-        menu.addItem(menuItem);
-        //When
-        AppStatus appStatus = menu.execute();
-        //Then
-        //Clean up
-        Input.close();
-    }
 }
