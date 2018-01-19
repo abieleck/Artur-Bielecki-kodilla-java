@@ -15,6 +15,7 @@ public class SudokuRunner {
     Menu menu = new Menu("Select action:", "Enter your choice:");
     EndApplicationMenu endApplicationMenu = new EndApplicationMenu(menu);
     Board board = new Board();
+    NeighbourhoodProcessor neighbourhoodProcessor = new NeighbourhoodProcessor((x, y) -> board.getValue(x, y));
 
     private void menuSetup() {
         menu.addItem(new MenuItem("x,y,n...", "^[1-9],[1-9],[0-9](,[1-9],[1-9],[0-9])*$",
@@ -42,24 +43,6 @@ public class SudokuRunner {
         Input.close();
     }
 
-    private boolean valueIsValid(int x, int y, int value) {
-        if (value == SudokuElement.EMPTY) {
-            return true;
-        }
-        boolean isValid = true;
-        for(int i=1; i<9 && isValid; i++) {
-            isValid = board.getValue((x - 1 + i) % 9 + 1, y) != value &&
-                    board.getValue(x, (y - 1 + i) % 9 + 1) != value;
-        }
-        for(int i = 1; i < 3 && isValid; i++) {
-            for(int j = 1; j < 3 && isValid; j++) {
-                isValid = board.getValue(x - (x-1) % 3 + ((x-1) % 3 + i) % 3,
-                        y - (y-1) % 3 + ((y-1) % 3 + j) % 3) != value;
-            }
-        }
-        return isValid;
-    }
-
     private AppStatus insertToBoard(String valuesAtCoordinates) {
         String[] values = valuesAtCoordinates.split(",");
         boolean validValue = true;
@@ -71,7 +54,7 @@ public class SudokuRunner {
             if(value == 0) {
                 value = SudokuElement.EMPTY;
             }
-            validValue = valueIsValid(x, y, value);
+            validValue = neighbourhoodProcessor.valueValidAtCoordinates(x, y, value);
             if(validValue) {
                 board.insert(x, y, value);
             }

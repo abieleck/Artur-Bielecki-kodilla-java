@@ -1,5 +1,6 @@
 package com.kodilla.sudoku.solver.iterate;
 
+import com.kodilla.sudoku.NeighbourhoodProcessor;
 import com.kodilla.sudoku.board.Board;
 import com.kodilla.sudoku.solver.SudokuSolver;
 
@@ -21,18 +22,11 @@ public class SolverIterate implements SudokuSolver {
         for (SolverIterateElement e : solverState.getEmptyElements()) {
             int i = e.getI();
             int j = e.getJ();
-            for (int k = 1; k < 9; k++) {
-                solverState.removePossibleValue(i, j, solverState.getValue((i + k) % 9, j));
-                solverState.removePossibleValue(i, j, solverState.getValue(i, (j + k) % 9));
-            }
-            for (int k = 1; k < 3; k++) {
-                for (int l = 1; l < 3; l++) {
-                    solverState.removePossibleValue(i, j, solverState.getValue(i - i % 3 + (i % 3 + k) % 3,
-                            j - j % 3 + (j % 3 + l) % 3));
-                }
-            }
+            NeighbourhoodProcessor neighbourhoodProcessor =
+                    new NeighbourhoodProcessor((x, y) -> solverState.getValue(x-1, y-1));
+            neighbourhoodProcessor.processNeighbourValues(i+1, j+1,
+                    value -> solverState.removePossibleValue(i, j, value));
         }
-
     }
 
     @Override
