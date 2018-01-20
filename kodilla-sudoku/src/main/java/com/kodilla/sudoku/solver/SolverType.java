@@ -56,10 +56,10 @@ public enum SolverType {
                 .map(p -> p.getName() + " - " + p.getDescription())
                 .collect(Collectors.joining(", ", solverSpec.getDescription() + " ", ""));
         return new MenuItem(entry, pattern, description,
-                s -> solveSudoku(board, solverGenerator.apply(board, parseParameters(s))));
+                s -> solveSudokuMenuMethod(board, solverGenerator.apply(board, parseParameters(s))));
     }
 
-    private AppStatus solveSudoku(Board board, SudokuSolver solver) {
+    private AppStatus solveSudokuMenuMethod(Board board, SudokuSolver solver) {
         solver.solveSudoku();
         List<Board> solutions = solver.getSolutions();
         if(solutions.isEmpty()) {

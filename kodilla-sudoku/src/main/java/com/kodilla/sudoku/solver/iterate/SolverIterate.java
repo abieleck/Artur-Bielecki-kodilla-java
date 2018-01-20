@@ -1,6 +1,6 @@
 package com.kodilla.sudoku.solver.iterate;
 
-import com.kodilla.sudoku.NeighbourhoodProcessor;
+import com.kodilla.sudoku.IndexCalculator;
 import com.kodilla.sudoku.board.Board;
 import com.kodilla.sudoku.solver.SudokuSolver;
 
@@ -22,10 +22,23 @@ public class SolverIterate implements SudokuSolver {
         for (SolverIterateElement e : solverState.getEmptyElements()) {
             int i = e.getI();
             int j = e.getJ();
-            NeighbourhoodProcessor neighbourhoodProcessor =
-                    new NeighbourhoodProcessor((x, y) -> solverState.getValue(x-1, y-1));
-            neighbourhoodProcessor.processNeighbourValues(i+1, j+1,
-                    value -> solverState.removePossibleValue(i, j, value));
+
+            // process row and column, skip coordinates x,y
+            for(int k=1; k<9; k++) {
+                // (x - 1 + i) % 9 + 1 goes through all numbers from 1 to 9 except x
+                solverState.removePossibleValue(i, j,
+                        solverState.getValue(IndexCalculator.shiftCyclically(i, k, IndexCalculator.Base.BASE_0), j));
+                solverState.removePossibleValue(i, j,
+                        solverState.getValue(i, IndexCalculator.shiftCyclically(j, k, IndexCalculator.Base.BASE_0)));
+            }
+            // process block, skip values in the same row or column because they have been checked above
+            for(int k = 1; k < 3; k++) {
+                for(int l = 1; l < 3; l++) {
+                    solverState.removePossibleValue(i, j, solverState.getValue(
+                            IndexCalculator.shiftCyclicallyWithinBlock(i, k, IndexCalculator.Base.BASE_0),
+                            IndexCalculator.shiftCyclicallyWithinBlock(j, l, IndexCalculator.Base.BASE_0)));
+                }
+            }
         }
     }
 

@@ -15,7 +15,6 @@ public class SudokuRunner {
     Menu menu = new Menu("Select action:", "Enter your choice:");
     EndApplicationMenu endApplicationMenu = new EndApplicationMenu(menu);
     Board board = new Board();
-    NeighbourhoodProcessor neighbourhoodProcessor = new NeighbourhoodProcessor((x, y) -> board.getValue(x, y));
 
     private void menuSetup() {
         menu.addItem(new MenuItem("x,y,n...", "^[1-9],[1-9],[0-9](,[1-9],[1-9],[0-9])*$",
@@ -43,6 +42,32 @@ public class SudokuRunner {
         Input.close();
     }
 
+    private boolean valueValidAtCoordinates(int x, int y, int value) {
+        if(value == SudokuElement.EMPTY) {
+            return true;
+        }
+        boolean noRepetition = true;
+        // check row and column, skip coordinates x,y
+        for(int i=1; i<9 && noRepetition; i++) {
+            // IndexCalculator.shiftCyclically(x, i, IndexCalculator.Base.BASE_1) goes through all numbers
+            // from 1 to 9 except x
+            noRepetition =
+                board.getValue(IndexCalculator.shiftCyclically(x, i, IndexCalculator.Base.BASE_1), y) != value
+                && board.getValue(x, IndexCalculator.shiftCyclically(y, i, IndexCalculator.Base.BASE_1)) != value;
+        }
+        // check block, skip values in the same row or column because they have been checked above
+        for(int i = 1; i < 3 && noRepetition; i++) {
+            for(int j = 1; j < 3 && noRepetition; j++) {
+                // IndexCalculator.shiftCyclicallyWithinBlock(x, i, IndexCalculator.Base.BASE_1) goes through all
+                // numbers in the same block except x, e.g. for x=5 it goes through 4-6, omitting 5
+                noRepetition =
+                    board.getValue(IndexCalculator.shiftCyclicallyWithinBlock(x, i, IndexCalculator.Base.BASE_1),
+                        IndexCalculator.shiftCyclicallyWithinBlock(y, j, IndexCalculator.Base.BASE_1)) != value;
+            }
+        }
+        return noRepetition;
+    }
+
     private AppStatus insertToBoard(String valuesAtCoordinates) {
         String[] values = valuesAtCoordinates.split(",");
         boolean validValue = true;
@@ -54,7 +79,7 @@ public class SudokuRunner {
             if(value == 0) {
                 value = SudokuElement.EMPTY;
             }
-            validValue = neighbourhoodProcessor.valueValidAtCoordinates(x, y, value);
+            validValue = valueValidAtCoordinates(x, y, value);
             if(validValue) {
                 board.insert(x, y, value);
             }
