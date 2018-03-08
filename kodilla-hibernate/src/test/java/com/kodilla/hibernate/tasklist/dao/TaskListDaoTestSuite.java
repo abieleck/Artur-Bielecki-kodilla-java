@@ -22,14 +22,14 @@ public class TaskListDaoTestSuite {
 
     private final static String NAME = "List name";
     private final static String DESCRIPTION = "List desription";
-<<<<<<< HEAD
+
     private final static String LISTNAME = "ToDo List";
 
     @Autowired
     TaskDao taskDao;
-=======
+
     private static int taskListId;
->>>>>>> Zadanie13.2
+
 
     @Autowired
     private TaskListDao taskListDao;
