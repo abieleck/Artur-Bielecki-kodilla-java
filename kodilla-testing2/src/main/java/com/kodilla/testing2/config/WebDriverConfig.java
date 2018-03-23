@@ -1,22 +1,32 @@
 package com.kodilla.testing2.config;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class WebDriverConfig {
-    public final static String FIREFOX = "FIREFOX_DRIVER";
-    public final static String  CHROME = "HROME_DRIVER";
-    public static WebDriver getDriver(final String driver) {
-        System.setProperty("webdriver.gecko.driver", "c:\\Selenium-drivers\\Firefox\\geckodriver.exe");
-        System.setProperty("webdriver.chrome.driver", "c:\\Selenium-drivers\\Chrome\\chromedriver.exe");
 
-        if (driver.equals(FIREFOX)) {
-            return new FirefoxDriver();
-        } else if (driver.equals(CHROME)) {
-            return new ChromeDriver();
-        } else {
-            return null;
+    public static WebDriver getDriver() throws SystemNotSupportedException {
+        WebDriver result = null;
+        boolean isDriverFound = false;
+        boolean isSystemSupported = false;
+        SystemNotSupportedException systemNotSupportedException = null;
+        Drivers[] drivers = Drivers.values();
+        for(int i=0; i<drivers.length && !isDriverFound; i++) {
+            try {
+                result = drivers[i].getDriver();
+                isSystemSupported = true;
+                isDriverFound = result != null;
+            } catch (SystemNotSupportedException e) {
+                systemNotSupportedException = e;
+            }
         }
+        if (!isSystemSupported) {
+            throw systemNotSupportedException;
+        }
+        return result;
     }
+
+    public static WebDriver getDriver(Drivers driver) throws SystemNotSupportedException {
+        return driver.getDriver();
+    }
+
 }

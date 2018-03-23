@@ -1,5 +1,7 @@
 package com.kodilla.testing2.crudapp;
 
+import com.kodilla.testing2.config.Drivers;
+import com.kodilla.testing2.config.SystemNotSupportedException;
 import com.kodilla.testing2.config.WebDriverConfig;
 import org.junit.After;
 import org.junit.Before;
@@ -21,8 +23,8 @@ public class CrudAppTestSuite {
     private Random generator;
 
     @Before
-    public void initTests() {
-        driver = WebDriverConfig.getDriver(WebDriverConfig.CHROME);
+    public void initTests() throws SystemNotSupportedException {
+        driver = WebDriverConfig.getDriver();
         driver.get(BASE_URL);
         generator = new Random();
     }
@@ -90,14 +92,14 @@ public class CrudAppTestSuite {
 
     }
 
-    private boolean checkTaskExistsInTrello(String taskName) throws InterruptedException {
+    private boolean checkTaskExistsInTrello(String taskName) throws InterruptedException, SystemNotSupportedException {
         final String TRELLO_URL = "https://trello.com/login";
         boolean result = false;
 
-        WebDriver driverTrello = WebDriverConfig.getDriver(WebDriverConfig.CHROME);
+        WebDriver driverTrello = WebDriverConfig.getDriver(Drivers.CHROME);
         driverTrello.get(TRELLO_URL);
 
-        driverTrello.findElement(By.id("user")).sendKeys("username");
+        driverTrello.findElement(By.id("user")).sendKeys("email");
         driverTrello.findElement(By.id("password")).sendKeys("password");
         driverTrello.findElement(By.id("login")).submit();
 
@@ -121,7 +123,7 @@ public class CrudAppTestSuite {
     }
 
     @Test
-    public void shouldCreateTrelloCard() throws InterruptedException {
+    public void shouldCreateTrelloCard() throws InterruptedException, SystemNotSupportedException {
         String taskName = createCrudAppTestTask();
         sendTestTaskToTrello(taskName);
         assertTrue(checkTaskExistsInTrello(taskName));
