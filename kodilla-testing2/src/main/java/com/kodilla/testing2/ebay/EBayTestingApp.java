@@ -9,9 +9,11 @@ import org.openqa.selenium.WebElement;
 
 public class EBayTestingApp {
     public static final String SEARCHFIELD = "gh-ac";
-    public static void main(String[] args) throws SystemNotSupportedException {
 
-        WebDriver driver = WebDriverConfig.getDriver(Drivers.SAFARI);
+    public static void main(String[] args) throws SystemNotSupportedException {
+        final Drivers driverBrowser = Drivers.CHROME;
+
+        WebDriver driver = WebDriverConfig.getDriver(driverBrowser);
         driver.get("https://www.ebay.com");
         WebElement searchField = driver.findElement(By.id(SEARCHFIELD));
         searchField.sendKeys("Laptop");

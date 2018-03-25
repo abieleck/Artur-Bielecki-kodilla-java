@@ -19,12 +19,13 @@ import static org.junit.Assert.assertTrue;
 
 public class CrudAppTestSuite {
     private static final String BASE_URL = "https://abieleck.github.io/";
+    private static final Drivers driverBrowser = Drivers.CHROME;
     private WebDriver driver;
     private Random generator;
 
     @Before
     public void initTests() throws SystemNotSupportedException {
-        driver = WebDriverConfig.getDriver();
+        driver = WebDriverConfig.getDriver(driverBrowser);
         driver.get(BASE_URL);
         generator = new Random();
     }
@@ -96,7 +97,7 @@ public class CrudAppTestSuite {
         final String TRELLO_URL = "https://trello.com/login";
         boolean result = false;
 
-        WebDriver driverTrello = WebDriverConfig.getDriver(Drivers.CHROME);
+        WebDriver driverTrello = WebDriverConfig.getDriver(driverBrowser);
         driverTrello.get(TRELLO_URL);
 
         driverTrello.findElement(By.id("user")).sendKeys("email");

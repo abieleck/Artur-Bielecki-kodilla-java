@@ -23,7 +23,9 @@ public class FacebookTestingApp {
             "//span[@data-name=\"birthday_wrapper\"]/span/select[@id=\"year\"]";
 
     public static void main(String[] args) throws SystemNotSupportedException {
-        WebDriver driver = WebDriverConfig.getDriver(Drivers.FIREFOX);
+        final Drivers driverBrowser = Drivers.CHROME;
+
+        WebDriver driver = WebDriverConfig.getDriver(driverBrowser);
         driver.get("https://www.facebook.com/");
 
         WebElement selectDayElement = driver.findElement(By.xpath(XPATH_SELECT_DAY));
